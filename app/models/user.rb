@@ -14,7 +14,7 @@ class User
 
   validates :email, presence: true
   validates :password, presence: true, :length => {:within => 6..50}
-  
+
   alias_method :index, :email
 
   def self.load(email)
@@ -26,14 +26,12 @@ class User
   end
 
   def save
-    if valid?
-      save_password = @password
-      @password = @password_digest
-      super("password_digest")
-      @password = save_password
-      true
-    else
-      false
-    end
+    return false unless valid?
+
+    save_password = @password
+    @password = @password_digest
+    super("password_digest")
+    @password = save_password
+    true
   end
 end
